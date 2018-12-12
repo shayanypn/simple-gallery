@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './components/App';
 
 import './styles/app.scss';
 
 class Main extends React.Component {
 	render() {
-		return (
-			<div>hello</div>
-		);
+		return (<App />);
 	}
 }
 
