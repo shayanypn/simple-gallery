@@ -1,45 +1,52 @@
 import React from 'react';
-
+import Head from './Head';
+import List from './List';
+import ModalView from './ModalView';
 
 class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			activeItem: null,
+			items: [{
+				full: 'https://via.placeholder.com/550',
+				thumbnail: 'https://via.placeholder.com/150',
+				addedAt: (new Date()).getTime()
+			}]
+		}
+	}
+	onAddImage(item){
+		const { items } = this.state;
+
+		console.log(item);
+
+		items.push(item);
+		this.setState({
+			items: items
+		});
+	}
+	onView(index) {
+		const item = this.state.items[index];
+
+		this.setState({
+			activeItem: item
+		});
+	}
+	onClose(){
+		this.setState({
+			activeItem: null
+		});
+	}
 	render() {
 		return (
 			<div>
 				<div className="container">
-					<div className="row">
-						<div className="col-10"><h2>Image Gallery</h2></div>
-						<div className="col-2">
-							<button className="btn btn-success">+</button>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col">
-							<div className="jumbotron p-2 pl-5">
-								<form className="form-inline">
-									<label className="my-1 mr-2" htmlFor="image">Image</label>
-									<div className="custom-file my-1 mr-sm-2">
-										<input type="file" className="custom-file-input" id="image-file" />
-										<label className="custom-file-label" htmlFor="image-file">Choose file</label>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-6">
-							<img src="https://via.placeholder.com/150" className="rounded w-100" />
-						</div>
-						<div className="col-6">
-							<img src="https://via.placeholder.com/150" className="rounded w-100" />
-						</div>
-					</div>
+					<Head onImage={this.onAddImage.bind(this)} />
+					<List items={this.state.items} onView={this.onView.bind(this)} />
 				</div>
-				<div className="modal-view">
-					<div className="modal-view-dialog">
-						<button className="btn btn-default modal-view-dialog-close">x</button>
-						<img src="https://via.placeholder.com/500" className="rounded w-100" />
-					</div>
-				</div>
+				<ModalView 
+					onClose={this.onClose.bind(this)}
+					item={this.state.activeItem} />
 			</div>
 		);
 	}
