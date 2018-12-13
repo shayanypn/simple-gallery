@@ -23,7 +23,7 @@ module.exports = {
           {loader:'style-loader'},
           {loader:'css-loader'},
         ]
-      },{
+      }, {
           test: /\.scss$/,
           use: [{
               loader: "style-loader" // creates style nodes from JS strings
@@ -32,8 +32,15 @@ module.exports = {
           }, {
               loader: "sass-loader" // compiles Sass to CSS
           }]
+      }, {
+        test: /\.(svg|png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}
+          }
+        ]
       }
-      
     ]
   },
   plugins: [HtmlWebpackPluginConfig]
