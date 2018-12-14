@@ -1,6 +1,12 @@
 import React from 'react';
 
 class ModalView extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			width: null,
+		}
+	}
 	onHandleClose(){
 		this.props.onClose();
 	}
@@ -15,6 +21,21 @@ class ModalView extends React.Component {
 
 		this.props.onDelete(item.id);
 	}
+	componentDidUpdate(prevProps, prevState) {
+		const { item } = this.props,
+		img = new Image(),
+		maxWidth = window.innerWidth * 0.9;
+		let desireWidth = 0;
+
+		if (!item) {return;}
+
+		img.onload = () => {
+			this.setState({
+				width: (img.width > maxWidth) ? maxWidth : img.width
+			});
+		};
+		img.src = item.full;
+	}
 	render() {
 		const { item, total, current } = this.props;
 
@@ -24,7 +45,7 @@ class ModalView extends React.Component {
 
 		return (
 			<div className={`modal-view ${item ? 'active' : ''}`}>
-				<div className="modal-view-dialog">
+				<div className="modal-view-dialog" style={{width: this.state.width}}>
 					<div className="modal-view-image">
 						<div className="pagination">{current}/{total}</div>
 						<button onClick={this.onHandleClose.bind(this)} className="btn btn-default modal-view-dialog-close">x</button>

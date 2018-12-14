@@ -1,10 +1,13 @@
 import React from 'react';
-
+import Moment from 'react-moment';
 
 class List extends React.Component {
 
 	onHandleClick(index){
 		this.props.onView(index);
+	}
+	onHandleDelete(index){
+		this.props.onDelete(index);
 	}
 
 	render() {
@@ -19,10 +22,10 @@ class List extends React.Component {
 									<div className="d-flex justify-content-between align-items-center">
 										<div className="btn-group">
 											<button onClick={e => this.onHandleClick(idx)} type="button" className="btn btn-sm btn-outline-secondary">View</button>
-											<button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
+											<button onClick={e => this.onHandleDelete(x.id)} type="button" className="btn btn-sm btn-outline-danger">Delete</button>
 										</div>
-										<small className="text-muted">9 mins</small>
 									</div>
+									<small className="text-muted"><Moment fromNow>{x.date}</Moment></small>
 								</div>
 							</div>
 						</div>)

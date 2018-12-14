@@ -1,6 +1,9 @@
 import React from 'react';
 import { GUID, Store } from '../utils/Index';
-import Head from './Head';
+import Form from './Form';
+import Header from './Header';
+import Footer from './Footer';
+import About from './About';
 import List from './List';
 import ModalView from './ModalView';
 
@@ -32,7 +35,8 @@ class App extends React.Component {
 			this.OnAddImage((id ? false : true) ,{
 				id: id ? id : GUID(),
 				full: getBase64(1),
-				thumbnail: getBase64(scale)
+				thumbnail: getBase64(scale),
+				date: (new Date()).getTime()
 			});
 		}
 		img.src = data;
@@ -100,66 +104,26 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<header>
-				    <div className="collapse bg-dark" id="navbarHeader">
-				        <div className="container">
-				            <div className="row">
-				                <div className="col-sm-8 col-md-7 py-4">
-				                    <h4 className="text-white">About</h4>
-				                    <p className="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-				                </div>
-				                <div className="col-sm-4 offset-md-1 py-4">
-				                    <h4 className="text-white">Contact</h4>
-				                    <ul className="list-unstyled">
-				                        <li><a href="#" className="text-white">Follow on Twitter</a></li>
-				                        <li><a href="#" className="text-white">Like on Facebook</a></li>
-				                        <li><a href="#" className="text-white">Email me</a></li>
-				                    </ul>
-				                </div>
-				            </div>
-				        </div>
-				    </div>
-				    <div className="navbar navbar-dark bg-dark shadow-sm">
-				        <div className="container d-flex justify-content-between">
-							<a href="#" className="navbar-brand d-flex align-items-center">
-								<strong>Album</strong>
-							</a>
-				        </div>
-				    </div>
-				</header>
+				<Header />
 				<main role="main">
-				    <section className="jumbotron text-center mb-0">
-				        <div className="container">
-				            <h1 className="jumbotron-heading">Image Gallery</h1>
-				            <p className="lead text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-							</p>
-				        </div>
-				    </section>
+					<About />
 				    <div className="album py-5 bg-light">
 				        <div className="container">
-				        	<div className="row">
-				        		<div className="col-md-12">
-									<canvas id="simple-gallery-form-canvas" style={{display:'none'}} ></canvas>
-									<Head onImage={this.OnPrepareImage.bind(this)} />
-				        		</div>
-				        	</div>
+				        	<canvas id="simple-gallery-form-canvas" style={{display:'none'}} />
+							<Form 
+								onImage={this.OnPrepareImage.bind(this)}
+								/>
 							<List 
-							items={this.state.items} 
-							onView={this.onView.bind(this)}
-							/>
+								items={this.state.items} 
+								onView={this.onView.bind(this)}
+								onDelete={this.onDelete.bind(this)}
+								/>
 				        </div>
 				    </div>
 				</main>
-				<footer className="text-muted">
-				</footer>
 				<ModalView 
 					total={this.state.items.length}
-					current={this.state.activeIndex}
+					current={this.state.activeIndex+1}
 					item={this.state.activeItem}
 					onClose={this.onClose.bind(this)}
 					onDelete={this.onDelete.bind(this)}
