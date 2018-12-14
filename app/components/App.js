@@ -18,7 +18,7 @@ class App extends React.Component {
 	}
 	OnPrepareImage(id, data){
 		const canvas = document.getElementById('simple-gallery-form-canvas'),
-		ctx = canvas.getContext('2d'),
+		ctx = canvas ? canvas.getContext('2d') : null,
 		img = new Image();
 		img.onload = () => {
 			const iw=img.width,
